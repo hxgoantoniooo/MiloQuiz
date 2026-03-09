@@ -71,11 +71,25 @@
         .bloqueada { background-color: #1a1a1a; color: #555; filter: blur(4px); pointer-events: none; border-color: #222; position: relative; }
         .bloqueada::after { content: "🔒"; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 20px; filter: blur(0); }
 
-        /* --- ÁREA DE RESPUESTA --- */
-        .area-respuesta { display: flex; gap: 10px; width: 100%; max-width: 400px; }
-        input { flex-grow: 1; padding: 12px; font-size: 16px; border-radius: 8px; border: none; outline: none; background-color: #333; color: white; min-width: 0; }
-        .btn-enviar { padding: 12px 20px; background-color: #ffffff; color: #000000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        /* --- ÁREA DE RESPUESTA Y BUSCADOR --- */
+        .area-respuesta { display: flex; gap: 10px; width: 100%; max-width: 400px; align-items: flex-start; }
+        
+        .input-container { position: relative; flex-grow: 1; min-width: 0; }
+        input { width: 100%; padding: 12px; font-size: 16px; border-radius: 8px; border: none; outline: none; background-color: #333; color: white; box-sizing: border-box;}
+        
+        .btn-enviar { padding: 12px 20px; background-color: #ffffff; color: #000000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; height: 43px;}
         #mensaje { margin-top: 15px; font-weight: bold; font-size: 16px; text-align: center; white-space: pre-line;}
+
+        /* DISEÑO DE LA CAJA DESPLEGABLE (HACIA ABAJO) */
+        .sugerencias-box {
+            position: absolute; top: 100%; left: 0; right: 0; margin-top: 5px;
+            background-color: #2a2a2a; border: 1px solid #555; border-radius: 8px;
+            max-height: 200px; overflow-y: auto; z-index: 1000; display: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+        }
+        .sugerencia-item { padding: 12px; cursor: pointer; border-bottom: 1px solid #333; color: #fff; font-size: 14px; text-align: left;}
+        .sugerencia-item:hover { background-color: #1db954; color: black; font-weight: bold; }
+        .sugerencia-item:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
@@ -127,36 +141,38 @@
         </div>
     </div>
 
-    <audio id="audioQuiz" src=""></audio>
+    <audio id="audioQuiz" src="" preload="auto"></audio>
     <div class="contenedor-pistas" id="contenedorPistas"></div>
 
     <div class="area-respuesta" id="areaRespuesta">
-        <input type="text" id="inputRespuesta" placeholder="¿Qué canción es?" autocomplete="off" onkeypress="manejarEnter(event)">
+        <div class="input-container">
+            <input type="text" id="inputRespuesta" placeholder="¿Qué canción es?" autocomplete="off" onkeypress="manejarEnter(event)">
+            <div id="listaSugerencias" class="sugerencias-box"></div>
+        </div>
         <button id="btnAdivinar" class="btn-enviar" onclick="verificarRespuesta()">Adivinar</button>
     </div>
     <div id="mensaje"></div>
 
+    <script src="canciones.js"></script>
     <script src="pistas.js"></script>
 
     <script>
-        // --- 1. CONFIGURACIÓN DE FIREBASE (TUS LLAVES REALES) ---
+        // --- 1. CONFIGURACIÓN DE FIREBASE ---
         const firebaseConfig = {
             apiKey: "AIzaSyA5qCD91OnVCrDSz0nmh_ed7Vvt3FNmbjU",
             authDomain: "miloquiz-7e41a.firebaseapp.com",
-            databaseURL: "https://miloquiz-7e41a-default-rtdb.firebaseio.com", // Ruta obligatoria para escribir datos
+            databaseURL: "https://miloquiz-7e41a-default-rtdb.firebaseio.com", 
             projectId: "miloquiz-7e41a",
             storageBucket: "miloquiz-7e41a.firebasestorage.app",
             messagingSenderId: "567093194785",
             appId: "1:567093194785:web:070472a24735fe3b21b360",
             measurementId: "G-XB7B8GS9Q6"
         };
-        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-
         // --- 2. CONFIGURACIÓN DEL JUEGO Y USUARIO ---
-        const fechaInicioJuego = new Date(2026, 2, 9); // PUESTO EN 8 DE MARZO PARA QUE LO PRUEBES HOY
+        const fechaInicioJuego = new Date(2026, 2, 9); 
 
         let datosJuego = null;
         let pistaActual = 1;
@@ -166,21 +182,18 @@
         let mesActualStr = new Date().getFullYear() + "_" + new Date().getMonth();
         let tiempoInicio;
 
-        // Crear un ID único para este celular/computador si no existe
         let miUserId = localStorage.getItem("quizUserId");
         if (!miUserId) {
             miUserId = "user_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
             localStorage.setItem("quizUserId", miUserId);
         }
 
-        // Cargar estadísticas locales
         let misStats = JSON.parse(localStorage.getItem("quizStats")) || {
             victoriasMes: 0,
             mesActual: mesActualStr,
             intentosHoy: "-"
         };
 
-        // Si cambió el mes, resetear victorias
         if (misStats.mesActual !== mesActualStr) {
             misStats.victoriasMes = 0;
             misStats.mesActual = mesActualStr;
@@ -205,7 +218,6 @@
 
             idJuegoDeHoy = "dia_" + diaActualDelJuego;
 
-            // BLOQUEO DIARIO LOCAL
             if (localStorage.getItem("ultimoDiaJugado") === idJuegoDeHoy) {
                 document.getElementById("mensaje").innerText = "Ya jugaste hoy. ¡Vuelve mañana! ⏳";
                 document.getElementById("areaRespuesta").style.display = "none";
@@ -221,7 +233,7 @@
                 
                 misStats.intentosHoy = "-"; 
                 guardarStatsLocal();
-                tiempoInicio = Date.now(); // Arranca el reloj
+                tiempoInicio = Date.now(); 
             }
         }
 
@@ -243,21 +255,98 @@
             document.getElementById("contenedorPistas").innerHTML = htmlPistas;
         }
 
-        function procesarInput(texto) { return btoa(texto.toLowerCase().replace(/\s+/g, '')); }
+        // --- MEJORA: LA MAGIA DEL BUSCADOR FLOTANTE ---
+        function limpiarTexto(texto) {
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
+                        .replace(/[^a-zA-Z0-9]/g, "").toLowerCase(); 
+        }
+
+        const inputElement = document.getElementById("inputRespuesta");
+        const sugerenciasBox = document.getElementById("listaSugerencias");
+
+        if(inputElement) {
+            inputElement.addEventListener("input", function() {
+                if(juegoTerminado) return;
+                
+                let valorInput = this.value;
+                sugerenciasBox.innerHTML = ""; 
+
+                if (valorInput.length < 3 || typeof catalogoMilo === 'undefined') {
+                    sugerenciasBox.style.display = "none";
+                    return;
+                }
+
+                let valorLimpio = limpiarTexto(valorInput);
+
+                let coincidencias = catalogoMilo.filter(cancion => {
+                    return limpiarTexto(cancion).includes(valorLimpio);
+                });
+
+                if (coincidencias.length > 0) {
+                    sugerenciasBox.style.display = "block";
+                    coincidencias.forEach(cancion => {
+                        let div = document.createElement("div");
+                        div.className = "sugerencia-item";
+                        div.innerText = cancion; 
+                        
+                        div.onclick = function() {
+                            inputElement.value = cancion; 
+                            sugerenciasBox.style.display = "none"; 
+                            inputElement.focus(); 
+                        };
+                        sugerenciasBox.appendChild(div);
+                    });
+                } else {
+                    sugerenciasBox.style.display = "none";
+                }
+            });
+
+            document.addEventListener("click", function(e) {
+                if (e.target !== inputElement) {
+                    sugerenciasBox.style.display = "none";
+                }
+            });
+        }
+
+        // --- MEJORA: ENCRIPTACIÓN A PRUEBA DE TILDES ---
+        function procesarInput(texto) { 
+            let textoPlanchado = texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, '');
+            return btoa(textoPlanchado); 
+        }
         function manejarEnter(event) { if (event.key === "Enter" && !juegoTerminado) verificarRespuesta(); }
 
+        // --- MEJORA: AUDIO CON PROMESA ---
         function reproducirAudioCorto() {
             let audio = document.getElementById("audioQuiz");
             let boton = document.getElementById("pista" + (datosJuego.pistasTextos.length + 1));
-            audio.pause(); clearTimeout(temporizadorAudio);
-            audio.currentTime = datosJuego.audioInicio; audio.play();
+            
+            audio.pause(); 
+            clearTimeout(temporizadorAudio);
+            audio.currentTime = datosJuego.audioInicio; 
             
             let textoOri = "▶️ Escuchar 2 segundos";
-            boton.innerText = "🔊 Sonando..."; boton.style.pointerEvents = "none";
+            boton.innerText = "⏳ Cargando..."; 
+            boton.style.pointerEvents = "none";
             
-            temporizadorAudio = setTimeout(() => {
-                audio.pause(); boton.innerText = textoOri; boton.style.pointerEvents = "auto";
-            }, 2000);
+            let promesaReproduccion = audio.play();
+
+            if (promesaReproduccion !== undefined) {
+                promesaReproduccion.then(() => {
+                    boton.innerText = "🔊 Sonando..."; 
+                    temporizadorAudio = setTimeout(() => {
+                        audio.pause(); 
+                        boton.innerText = textoOri; 
+                        boton.style.pointerEvents = "auto";
+                    }, 2000);
+                }).catch(error => {
+                    console.error("Error al cargar el audio:", error);
+                    boton.innerText = "❌ Error de audio";
+                    setTimeout(() => {
+                        boton.innerText = textoOri; 
+                        boton.style.pointerEvents = "auto";
+                    }, 2000);
+                });
+            }
         }
 
         function verificarRespuesta() {
@@ -279,6 +368,7 @@
                     divMensaje.innerText = "❌ Incorrecto. Pista " + pistaActual + " revelada.";
                     divMensaje.style.color = "#ff4d4d";
                     input.value = ""; 
+                    sugerenciasBox.style.display = "none"; // Ocultar sugerencias si se equivoca
                 } else {
                     terminarJuego(false); 
                 }
@@ -292,6 +382,7 @@
             
             document.getElementById("inputRespuesta").disabled = true;
             document.getElementById("btnAdivinar").disabled = true;
+            if(sugerenciasBox) sugerenciasBox.style.display = "none"; // Ocultar sugerencias al terminar
             document.getElementById("tarjetaDisco").classList.add("girar");
             localStorage.setItem("ultimoDiaJugado", idJuegoDeHoy);
 
@@ -303,12 +394,10 @@
                 divMensaje.style.color = "#1db954";
                 clearTimeout(temporizadorAudio); audio.currentTime = 0; audio.play();
 
-                // Actualizamos las stats locales
                 misStats.victoriasMes += 1;
                 misStats.intentosHoy = pistaActual;
                 guardarStatsLocal();
 
-                // Gestionamos el nombre y subimos todo a Firebase
                 gestionarSubidaFirebase(segundosTomados, pistaActual);
 
             } else {
@@ -321,7 +410,6 @@
         }
 
         // --- 4. LA MAGIA DE FIREBASE (LEADERBOARD) ---
-
         function gestionarSubidaFirebase(tiempo, pistasUsadas) {
             let nombre = localStorage.getItem("nombreJugadorQuiz");
             if (!nombre) {
@@ -338,14 +426,12 @@
         }
 
         function subirDatos(nombreJugador, tiempo, pistasUsadas) {
-            // 1. Subir al Leaderboard Diario (Sobrescribe si el usuario juega de nuevo con trampa, se queda con su último puntaje)
             database.ref('leaderboard/diario/' + idJuegoDeHoy + '/' + miUserId).set({
                 nombre: nombreJugador,
                 pistasUsadas: pistasUsadas,
                 tiempo: tiempo
             });
 
-            // 2. Subir al Leaderboard Mensual (Actualiza el total de victorias de este mes)
             database.ref('leaderboard/mensual/' + mesActualStr + '/' + miUserId).set({
                 nombre: nombreJugador,
                 victorias: misStats.victoriasMes
@@ -356,12 +442,10 @@
             document.getElementById("modalLeaderboard").style.display = "flex";
             actualizarVistaStatsLocales();
             
-            // Cargar datos diarios desde Firebase
             database.ref('leaderboard/diario/' + idJuegoDeHoy).once('value', (snapshot) => {
                 let arrDiario = [];
                 snapshot.forEach(child => { arrDiario.push(child.val()); });
                 
-                // ORDENAR: 1° por menos pistas. Si empatan, 2° por menos tiempo
                 arrDiario.sort((a, b) => {
                     if (a.pistasUsadas !== b.pistasUsadas) return a.pistasUsadas - b.pistasUsadas;
                     return a.tiempo - b.tiempo;
@@ -378,12 +462,10 @@
                 document.getElementById("cuerpoTablaDiaria").innerHTML = htmlDiario || "<tr><td colspan='3'>Aún no hay ganadores hoy.</td></tr>";
             });
 
-            // Cargar datos mensuales desde Firebase
             database.ref('leaderboard/mensual/' + mesActualStr).once('value', (snapshot) => {
                 let arrMensual = [];
                 snapshot.forEach(child => { arrMensual.push(child.val()); });
                 
-                // ORDENAR: Por cantidad de victorias (de mayor a menor)
                 arrMensual.sort((a, b) => b.victorias - a.victorias);
 
                 let htmlMensual = "";
