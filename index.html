@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MiloQuiz Diario</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212; color: white; display: flex;
+            flex-direction: column; align-items: center; margin: 0;
+            padding: 20px 15px; box-sizing: border-box;
+        }
+
+        /* --- BOTÓN Y MODAL DEL LEADERBOARD --- */
+        .btn-leaderboard {
+            position: absolute; top: 20px; right: 20px; background: #1db954;
+            border: none; border-radius: 50%; width: 50px; height: 50px;
+            font-size: 24px; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); z-index: 100;
+        }
+        .modal {
+            display: none; position: fixed; z-index: 200; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.8);
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background-color: #222; padding: 20px; border-radius: 15px;
+            width: 90%; max-width: 400px; text-align: center; position: relative;
+            max-height: 80vh; overflow-y: auto;
+        }
+        .cerrar-modal {
+            position: absolute; top: 10px; right: 15px; font-size: 24px;
+            cursor: pointer; color: #aaa;
+        }
+        .tabla-stats { width: 100%; text-align: left; margin-top: 15px; border-collapse: collapse; font-size: 14px;}
+        .tabla-stats th, .tabla-stats td { padding: 8px; border-bottom: 1px solid #444; }
+        .tab-btn { background: #333; border: none; color: white; padding: 10px; cursor: pointer; border-radius: 5px; margin: 5px; }
+        .tab-btn.activo { background: #1db954; font-weight: bold;}
+
+        /* --- EFECTO DE LA TARJETA GIRATORIA --- */
+        .flip-card {
+            background-color: transparent; width: 100%; max-width: 250px;
+            aspect-ratio: 1 / 1; perspective: 1000px; margin-top: 40px; margin-bottom: 20px;
+        }
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.8s; transform-style: preserve-3d;
+        }
+        .girar { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 15px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+        }
+        .flip-card-front { background-color: #282828; font-size: 80px; border: 2px solid #444; }
+        .flip-card-back { background-color: #1db954; transform: rotateY(180deg); }
+        .flip-card-back.derrota { background-color: #d32f2f; } 
+        .flip-card-back img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; position: absolute; z-index: 1; opacity: 0.3; }
+        .info-cancion { position: relative; z-index: 2; text-shadow: 2px 2px 5px rgba(0,0,0,0.9); padding: 10px; }
+        .info-cancion h2 { margin: 0 0 5px 0; font-size: 1.5rem; }
+        .info-cancion p { margin: 0; font-size: 1rem; }
+
+        /* --- CONTENEDOR DE PISTAS --- */
+        .contenedor-pistas { display: flex; flex-direction: column; width: 100%; max-width: 400px; gap: 10px; margin-bottom: 20px; }
+        .pista-box { padding: 12px; border-radius: 8px; background-color: #2a2a2a; color: #fff; text-align: center; font-size: 14px; font-weight: bold; border: 1px solid #444; transition: all 0.3s; }
+        .btn-audio { background-color: #1db954; color: black; cursor: pointer; border: none; padding: 15px; }
+        .bloqueada { background-color: #1a1a1a; color: #555; filter: blur(4px); pointer-events: none; border-color: #222; position: relative; }
+        .bloqueada::after { content: "🔒"; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 20px; filter: blur(0); }
+
+        /* --- ÁREA DE RESPUESTA --- */
+        .area-respuesta { display: flex; gap: 10px; width: 100%; max-width: 400px; }
+        input { flex-grow: 1; padding: 12px; font-size: 16px; border-radius: 8px; border: none; outline: none; background-color: #333; color: white; min-width: 0; }
+        .btn-enviar { padding: 12px 20px; background-color: #ffffff; color: #000000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        #mensaje { margin-top: 15px; font-weight: bold; font-size: 16px; text-align: center; white-space: pre-line;}
+    </style>
+</head>
+<body>
+
+    <button class="btn-leaderboard" onclick="abrirLeaderboard()">🏆</button>
+
+    <div id="modalLeaderboard" class="modal">
+        <div class="modal-content">
+            <span class="cerrar-modal" onclick="cerrarLeaderboard()">&times;</span>
+            <h2>Ranking MiloQuiz</h2>
+            
+            <div>
+                <button class="tab-btn activo" id="btnTabDiario" onclick="cambiarTab('diario')">Hoy</button>
+                <button class="tab-btn" id="btnTabMensual" onclick="cambiarTab('mensual')">Mes</button>
+            </div>
+
+            <div id="misStats" style="background: #333; padding: 10px; border-radius: 8px; margin-top: 15px;">
+                <strong>Tus Estadísticas:</strong><br>
+                Victorias este mes: <span id="miMensual">0</span><br>
+                Pistas hoy: <span id="miDiario">-</span>
+            </div>
+
+            <table class="tabla-stats" id="tablaDiaria">
+                <thead><tr><th>Jugador</th><th>Pistas</th><th>Tiempo</th></tr></thead>
+                <tbody id="cuerpoTablaDiaria">
+                    <tr><td colspan="3" style="text-align:center;">Cargando jugadores...</td></tr>
+                </tbody>
+            </table>
+
+            <table class="tabla-stats" id="tablaMensual" style="display:none;">
+                <thead><tr><th>Jugador</th><th>Días Ganados</th></tr></thead>
+                <tbody id="cuerpoTablaMensual">
+                    <tr><td colspan="2" style="text-align:center;">Cargando jugadores...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="flip-card">
+        <div class="flip-card-inner" id="tarjetaDisco">
+            <div class="flip-card-front">❓</div>
+            <div class="flip-card-back" id="ladoRevelado">
+                <img id="imgPortada" src="" alt="Portada">
+                <div class="info-cancion">
+                    <h2 id="tituloFinal"></h2>
+                    <p id="artistaFinal"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioQuiz" src=""></audio>
+    <div class="contenedor-pistas" id="contenedorPistas"></div>
+
+    <div class="area-respuesta" id="areaRespuesta">
+        <input type="text" id="inputRespuesta" placeholder="¿Qué canción es?" autocomplete="off" onkeypress="manejarEnter(event)">
+        <button id="btnAdivinar" class="btn-enviar" onclick="verificarRespuesta()">Adivinar</button>
+    </div>
+    <div id="mensaje"></div>
+
+    <script src="pistas.js"></script>
+
+    <script>
+        // --- 1. CONFIGURACIÓN DE FIREBASE (TUS LLAVES REALES) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyA5qCD91OnVCrDSz0nmh_ed7Vvt3FNmbjU",
+            authDomain: "miloquiz-7e41a.firebaseapp.com",
+            databaseURL: "https://miloquiz-7e41a-default-rtdb.firebaseio.com", // Ruta obligatoria para escribir datos
+            projectId: "miloquiz-7e41a",
+            storageBucket: "miloquiz-7e41a.firebasestorage.app",
+            messagingSenderId: "567093194785",
+            appId: "1:567093194785:web:070472a24735fe3b21b360",
+            measurementId: "G-XB7B8GS9Q6"
+        };
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+
+        // --- 2. CONFIGURACIÓN DEL JUEGO Y USUARIO ---
+        const fechaInicioJuego = new Date(2026, 2, 9); // PUESTO EN 8 DE MARZO PARA QUE LO PRUEBES HOY
+
+        let datosJuego = null;
+        let pistaActual = 1;
+        let temporizadorAudio;
+        let juegoTerminado = false;
+        let idJuegoDeHoy = "";
+        let mesActualStr = new Date().getFullYear() + "_" + new Date().getMonth();
+        let tiempoInicio;
+
+        // Crear un ID único para este celular/computador si no existe
+        let miUserId = localStorage.getItem("quizUserId");
+        if (!miUserId) {
+            miUserId = "user_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+            localStorage.setItem("quizUserId", miUserId);
+        }
+
+        // Cargar estadísticas locales
+        let misStats = JSON.parse(localStorage.getItem("quizStats")) || {
+            victoriasMes: 0,
+            mesActual: mesActualStr,
+            intentosHoy: "-"
+        };
+
+        // Si cambió el mes, resetear victorias
+        if (misStats.mesActual !== mesActualStr) {
+            misStats.victoriasMes = 0;
+            misStats.mesActual = mesActualStr;
+            guardarStatsLocal();
+        }
+
+        // --- 3. LÓGICA PRINCIPAL DEL JUEGO ---
+        function cargarJuego() {
+            let fechaHoy = new Date();
+            fechaHoy.setHours(0, 0, 0, 0); 
+            let fechaInicioTemp = new Date(fechaInicioJuego);
+            fechaInicioTemp.setHours(0, 0, 0, 0);
+
+            let diferenciaTiempo = fechaHoy.getTime() - fechaInicioTemp.getTime();
+            let diaActualDelJuego = Math.floor(diferenciaTiempo / (1000 * 3600 * 24));
+
+            if (diaActualDelJuego < 0) {
+                document.getElementById("mensaje").innerText = "⏳ El juego arranca pronto...";
+                document.getElementById("areaRespuesta").style.display = "none";
+                return;
+            }
+
+            idJuegoDeHoy = "dia_" + diaActualDelJuego;
+
+            // BLOQUEO DIARIO LOCAL
+            if (localStorage.getItem("ultimoDiaJugado") === idJuegoDeHoy) {
+                document.getElementById("mensaje").innerText = "Ya jugaste hoy. ¡Vuelve mañana! ⏳";
+                document.getElementById("areaRespuesta").style.display = "none";
+                document.getElementById("tarjetaDisco").classList.add("girar");
+                actualizarVistaStatsLocales();
+                return;
+            }
+
+            if (typeof datosDiarios !== 'undefined' && datosDiarios.length > 0) {
+                let indiceCancion = diaActualDelJuego % datosDiarios.length;
+                datosJuego = datosDiarios[indiceCancion]; 
+                configurarInterfaz();
+                
+                misStats.intentosHoy = "-"; 
+                guardarStatsLocal();
+                tiempoInicio = Date.now(); // Arranca el reloj
+            }
+        }
+
+        function configurarInterfaz() {
+            document.getElementById("imgPortada").src = datosJuego.portada;
+            document.getElementById("tituloFinal").innerText = datosJuego.tituloMostrar;
+            document.getElementById("artistaFinal").innerText = datosJuego.artistaMostrar;
+            document.getElementById("audioQuiz").src = datosJuego.audioUrl;
+
+            let htmlPistas = "";
+            datosJuego.pistasTextos.forEach((texto, index) => {
+                let num = index + 1;
+                let claseExtra = num === 1 ? "" : "bloqueada";
+                htmlPistas += `<div id="pista${num}" class="pista-box ${claseExtra}">${texto}</div>`;
+            });
+
+            let numAudio = datosJuego.pistasTextos.length + 1;
+            htmlPistas += `<button id="pista${numAudio}" class="pista-box btn-audio bloqueada" onclick="reproducirAudioCorto()">▶️ Escuchar 2 segundos</button>`;
+            document.getElementById("contenedorPistas").innerHTML = htmlPistas;
+        }
+
+        function procesarInput(texto) { return btoa(texto.toLowerCase().replace(/\s+/g, '')); }
+        function manejarEnter(event) { if (event.key === "Enter" && !juegoTerminado) verificarRespuesta(); }
+
+        function reproducirAudioCorto() {
+            let audio = document.getElementById("audioQuiz");
+            let boton = document.getElementById("pista" + (datosJuego.pistasTextos.length + 1));
+            audio.pause(); clearTimeout(temporizadorAudio);
+            audio.currentTime = datosJuego.audioInicio; audio.play();
+            
+            let textoOri = "▶️ Escuchar 2 segundos";
+            boton.innerText = "🔊 Sonando..."; boton.style.pointerEvents = "none";
+            
+            temporizadorAudio = setTimeout(() => {
+                audio.pause(); boton.innerText = textoOri; boton.style.pointerEvents = "auto";
+            }, 2000);
+        }
+
+        function verificarRespuesta() {
+            if (juegoTerminado || !datosJuego) return;
+
+            let input = document.getElementById("inputRespuesta");
+            let divMensaje = document.getElementById("mensaje");
+            if (input.value.trim() === "") return;
+
+            let intentoCifrado = procesarInput(input.value);
+            let totalPistas = datosJuego.pistasTextos.length + 1;
+
+            if (datosJuego.respuestasHash.includes(intentoCifrado)) {
+                terminarJuego(true);
+            } else {
+                if (pistaActual < totalPistas) {
+                    pistaActual++;
+                    document.getElementById("pista" + pistaActual).classList.remove("bloqueada");
+                    divMensaje.innerText = "❌ Incorrecto. Pista " + pistaActual + " revelada.";
+                    divMensaje.style.color = "#ff4d4d";
+                    input.value = ""; 
+                } else {
+                    terminarJuego(false); 
+                }
+            }
+        }
+
+        function terminarJuego(esVictoria) {
+            juegoTerminado = true;
+            let divMensaje = document.getElementById("mensaje");
+            let audio = document.getElementById("audioQuiz");
+            
+            document.getElementById("inputRespuesta").disabled = true;
+            document.getElementById("btnAdivinar").disabled = true;
+            document.getElementById("tarjetaDisco").classList.add("girar");
+            localStorage.setItem("ultimoDiaJugado", idJuegoDeHoy);
+
+            if (esVictoria) {
+                let tiempoFin = Date.now();
+                let segundosTomados = Math.floor((tiempoFin - tiempoInicio) / 1000);
+
+                divMensaje.innerText = `🎉 ¡CORRECTO! 🎉\nLo adivinaste usando ${pistaActual} pistas.`;
+                divMensaje.style.color = "#1db954";
+                clearTimeout(temporizadorAudio); audio.currentTime = 0; audio.play();
+
+                // Actualizamos las stats locales
+                misStats.victoriasMes += 1;
+                misStats.intentosHoy = pistaActual;
+                guardarStatsLocal();
+
+                // Gestionamos el nombre y subimos todo a Firebase
+                gestionarSubidaFirebase(segundosTomados, pistaActual);
+
+            } else {
+                divMensaje.innerText = "💀 ¡No lo lograste! 💀\nTe quedaste sin intentos.";
+                divMensaje.style.color = "#d32f2f";
+                document.getElementById("ladoRevelado").classList.add("derrota");
+                misStats.intentosHoy = "Falló";
+                guardarStatsLocal();
+            }
+        }
+
+        // --- 4. LA MAGIA DE FIREBASE (LEADERBOARD) ---
+
+        function gestionarSubidaFirebase(tiempo, pistasUsadas) {
+            let nombre = localStorage.getItem("nombreJugadorQuiz");
+            if (!nombre) {
+                setTimeout(() => {
+                    nombre = prompt("¡Felicidades! Ingresa tu apodo para registrar tu puntaje:");
+                    if (nombre && nombre.trim() !== "") {
+                        localStorage.setItem("nombreJugadorQuiz", nombre.trim());
+                        subirDatos(nombre.trim(), tiempo, pistasUsadas);
+                    }
+                }, 1000);
+            } else {
+                subirDatos(nombre, tiempo, pistasUsadas);
+            }
+        }
+
+        function subirDatos(nombreJugador, tiempo, pistasUsadas) {
+            // 1. Subir al Leaderboard Diario (Sobrescribe si el usuario juega de nuevo con trampa, se queda con su último puntaje)
+            database.ref('leaderboard/diario/' + idJuegoDeHoy + '/' + miUserId).set({
+                nombre: nombreJugador,
+                pistasUsadas: pistasUsadas,
+                tiempo: tiempo
+            });
+
+            // 2. Subir al Leaderboard Mensual (Actualiza el total de victorias de este mes)
+            database.ref('leaderboard/mensual/' + mesActualStr + '/' + miUserId).set({
+                nombre: nombreJugador,
+                victorias: misStats.victoriasMes
+            });
+        }
+
+        function abrirLeaderboard() {
+            document.getElementById("modalLeaderboard").style.display = "flex";
+            actualizarVistaStatsLocales();
+            
+            // Cargar datos diarios desde Firebase
+            database.ref('leaderboard/diario/' + idJuegoDeHoy).once('value', (snapshot) => {
+                let arrDiario = [];
+                snapshot.forEach(child => { arrDiario.push(child.val()); });
+                
+                // ORDENAR: 1° por menos pistas. Si empatan, 2° por menos tiempo
+                arrDiario.sort((a, b) => {
+                    if (a.pistasUsadas !== b.pistasUsadas) return a.pistasUsadas - b.pistasUsadas;
+                    return a.tiempo - b.tiempo;
+                });
+
+                let htmlDiario = "";
+                arrDiario.forEach((jugador, index) => {
+                    htmlDiario += `<tr>
+                        <td>${index + 1}. ${jugador.nombre}</td>
+                        <td>${jugador.pistasUsadas}</td>
+                        <td>${jugador.tiempo}s</td>
+                    </tr>`;
+                });
+                document.getElementById("cuerpoTablaDiaria").innerHTML = htmlDiario || "<tr><td colspan='3'>Aún no hay ganadores hoy.</td></tr>";
+            });
+
+            // Cargar datos mensuales desde Firebase
+            database.ref('leaderboard/mensual/' + mesActualStr).once('value', (snapshot) => {
+                let arrMensual = [];
+                snapshot.forEach(child => { arrMensual.push(child.val()); });
+                
+                // ORDENAR: Por cantidad de victorias (de mayor a menor)
+                arrMensual.sort((a, b) => b.victorias - a.victorias);
+
+                let htmlMensual = "";
+                arrMensual.forEach((jugador, index) => {
+                    htmlMensual += `<tr>
+                        <td>${index + 1}. ${jugador.nombre}</td>
+                        <td>${jugador.victorias}</td>
+                    </tr>`;
+                });
+                document.getElementById("cuerpoTablaMensual").innerHTML = htmlMensual || "<tr><td colspan='2'>Nadie ha ganado este mes.</td></tr>";
+            });
+        }
+
+        // --- FUNCIONES EXTRA DE INTERFAZ ---
+        function guardarStatsLocal() {
+            localStorage.setItem("quizStats", JSON.stringify(misStats));
+            actualizarVistaStatsLocales();
+        }
+        function actualizarVistaStatsLocales() {
+            document.getElementById("miMensual").innerText = misStats.victoriasMes;
+            document.getElementById("miDiario").innerText = misStats.intentosHoy;
+        }
+        function cerrarLeaderboard() { document.getElementById("modalLeaderboard").style.display = "none"; }
+        function cambiarTab(tab) {
+            if (tab === 'diario') {
+                document.getElementById("tablaDiaria").style.display = "table"; document.getElementById("tablaMensual").style.display = "none";
+                document.getElementById("btnTabDiario").classList.add("activo"); document.getElementById("btnTabMensual").classList.remove("activo");
+            } else {
+                document.getElementById("tablaDiaria").style.display = "none"; document.getElementById("tablaMensual").style.display = "table";
+                document.getElementById("btnTabMensual").classList.add("activo"); document.getElementById("btnTabDiario").classList.remove("activo");
+            }
+        }
+
+        window.onload = cargarJuego;
+    </script>
+</body>
+</html>
