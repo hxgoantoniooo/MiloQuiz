@@ -28,5 +28,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/b2b05ff496d790a0ef6a9f8c1a3c822e/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "TOI HECHO",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 3,
+    "respuestasHash": ["c2VtaWxsZXJv"],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2024",
+      "💿 Pertenece a un álbum",
+      "🎤 Participan 2 artistas en el tema, y Milo no es el artista principal",
+      "🎶 Tanto Milo como el otro artista, son oriundos de Morón"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/8/b/a/0/8ba241e2b278d5088427306bcb0eb9e1.mp3?hdnea=exp=1773193592~acl=/api/1/1/8/b/a/0/8ba241e2b278d5088427306bcb0eb9e1.mp3*~data=user_id=0,application_id=42~hmac=816141a2ae7a06d23938fe1982f00876e71c9737a60f2d7fc8659df7ff633e09",
+    "audioInicio": 7,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/cba55aa6fb61085f10d8be0882506e1a/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "Semillero",
+    "artistaMostrar": "Rei, Milo j"
   }
 ];
