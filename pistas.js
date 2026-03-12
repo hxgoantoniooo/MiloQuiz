@@ -43,5 +43,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/cba55aa6fb61085f10d8be0882506e1a/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "Semillero",
     "artistaMostrar": "Rei, Milo j"
+  },
+  {
+    "id": 4,
+    "respuestasHash": ["dml0YWxpY2lv"],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2024",
+      "💿 Es un sencillo, no pertenece a ningún álbum/EP",
+      "🎤 No cuenta con featuring",
+      "☝️ El significado del titulo del tema es: ''Algo para toda la vida''"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/2/8/c/0/28c2b5942e0dcc5e8c3b7c1b88f9d5af.mp3?hdnea=exp=1773283879~acl=/api/1/1/2/8/c/0/28c2b5942e0dcc5e8c3b7c1b88f9d5af.mp3*~data=user_id=0,application_id=42~hmac=b9b7a6cec36917333f7e89651b115acdcf4cf6599fbbbff312a1654abf8ca10e",
+    "audioInicio": 20,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/324d9c1121af08fdb0eac7486d77f143/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "VITALICIO",
+    "artistaMostrar": "Milo j"
   }
 ];
