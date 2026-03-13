@@ -58,5 +58,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/324d9c1121af08fdb0eac7486d77f143/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "VITALICIO",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 5,
+    "respuestasHash": ["dW5hYmFsYQ=="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2023",
+      "💿 Pertenece a un álbum",
+      "🎤 Cuenta con un featuring de un artista internacional (no de Argentina)",
+      "☝️ El género de la canción es uno que Milo ya exploro anterior a este tema"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/9/b/f/0/9bf8e13fdfcf303358cc0f08acdb723d.mp3?hdnea=exp=1773369783~acl=/api/1/1/9/b/f/0/9bf8e13fdfcf303358cc0f08acdb723d.mp3*~data=user_id=0,application_id=42~hmac=83b891ab7e02bd52258a8540a77ef064354dd8cb95a2e87bdfbba7c4c2e7666b",
+    "audioInicio": 13,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/3497a7151f794fabdc532b052f03d5ee/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "UNA BALA",
+    "artistaMostrar": "Milo j, Peso Pluma"
   }
 ];
