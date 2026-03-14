@@ -73,5 +73,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/3497a7151f794fabdc532b052f03d5ee/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "UNA BALA",
     "artistaMostrar": "Milo j, Peso Pluma"
+  },
+  {
+    "id": 6,
+    "respuestasHash": ["cmluY29u", "cmluY8Ozbg=="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2023",
+      "💿 Es un sencillo, no pertenece a ningún álbum/EP",
+      "🎤 No cuenta con featuring",
+      "☝️ Hay un tipo de araña muy peligrosa que lleva el nombre de la canción"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/1/e/7/0/1e75436f5b61b6ca3911dd5c34eb86e7.mp3?hdnea=exp=1773457254~acl=/api/1/1/1/e/7/0/1e75436f5b61b6ca3911dd5c34eb86e7.mp3*~data=user_id=0,application_id=42~hmac=9bae0045592c0391cdaa375a175f21faebf78d7ca1fab3eebffaa48f377400fb",
+    "audioInicio": 0,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/94a75d07a03c9024520652c10defc855/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "Rincón",
+    "artistaMostrar": "Milo j"
   }
 ];
