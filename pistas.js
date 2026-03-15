@@ -88,5 +88,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/94a75d07a03c9024520652c10defc855/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "Rincón",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 7,
+    "respuestasHash": ["bm9oYWdvdHJhcA=="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2024",
+      "💿 Pertenece a un álbum",
+      "🎤 No cuenta con featuring",
+      "☝️ Es la canción con la que suele cerrar sus conciertos"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/1/d/9/0/1d94279bfc2ba45a71052c73ae634619.mp3?hdnea=exp=1773543470~acl=/api/1/1/1/d/9/0/1d94279bfc2ba45a71052c73ae634619.mp3*~data=user_id=0,application_id=42~hmac=ba2243094e752652815cd338e202a38e73d857b814930bc5fb904a097b8a071f",
+    "audioInicio": 8,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/baadb95923dc94dc0f5a3b1d33cf2928/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "NO HAGO TRAP",
+    "artistaMostrar": "Milo j"
   }
 ];
