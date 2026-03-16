@@ -103,5 +103,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/baadb95923dc94dc0f5a3b1d33cf2928/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "NO HAGO TRAP",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 8,
+    "respuestasHash": ["ZWxib2xlcm8="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2022",
+      "💿 Pertenece a un álbum",
+      "🎤 Participan 2 artistas en el tema, y Milo no es el artista principal",
+      "☝️ Además del tema original, cuenta con una versión ''acústica''"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/c/f/3/0/cf3d831e1bf413bd6be1c35a9256dd2d.mp3?hdnea=exp=1773629405~acl=/api/1/1/c/f/3/0/cf3d831e1bf413bd6be1c35a9256dd2d.mp3*~data=user_id=0,application_id=42~hmac=77ec4e4f188424a76ccbf126dd6987e8490e61fde73232b5c332e1f49553c05a",
+    "audioInicio": 15,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/5e420fec0a856c43a2f8c49400d93fe8/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "El Bolero",
+    "artistaMostrar": "Yami Safdie, Milo j"
   }
 ];
