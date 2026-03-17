@@ -118,5 +118,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/5e420fec0a856c43a2f8c49400d93fe8/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "El Bolero",
     "artistaMostrar": "Yami Safdie, Milo j"
+  },
+  {
+    "id": 9,
+    "respuestasHash": ["YWlyZQ==", "YTFyZQ=="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2023",
+      "💿 Pertenece a un álbum",
+      "🎤 No cuenta con featuring",
+      "☝️ Parte de la letra: ''Avanzan las pericias y hay heridas que aún no se ven''"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/a/4/4/0/a44ac730e463c022fae69471e832ec21.mp3?hdnea=exp=1773716287~acl=/api/1/1/a/4/4/0/a44ac730e463c022fae69471e832ec21.mp3*~data=user_id=0,application_id=42~hmac=08a4d9e1fa3032a586cf032ee4ccb116f42efc2af452fd35315b79adbb47d4df",
+    "audioInicio": 10,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/3497a7151f794fabdc532b052f03d5ee/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "A1RE",
+    "artistaMostrar": "Milo j"
   }
 ];
