@@ -133,5 +133,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/3497a7151f794fabdc532b052f03d5ee/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "A1RE",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 10,
+    "respuestasHash": ["ZnJ1dG8="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2023",
+      "💿 Pertenece a un álbum",
+      "🎤 Participan 2 artistas en el tema, y Milo no es el artista principal",
+      "☝️ El otro artista no es un cantante"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/a/3/8/0/a38ac1c2a1bdea73f6c112aa0858cc82.mp3?hdnea=exp=1773802523~acl=/api/1/1/a/3/8/0/a38ac1c2a1bdea73f6c112aa0858cc82.mp3*~data=user_id=0,application_id=42~hmac=843e9a88bd22cb5a40a073fdfdf4b1e446a19cc64121d9afb3606683db8e6db7",
+    "audioInicio": 20,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/dec5a958394715ea3ee7f2f9ce0f6528/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "Fruto",
+    "artistaMostrar": "Bizarrap, Milo j"
   }
 ];
