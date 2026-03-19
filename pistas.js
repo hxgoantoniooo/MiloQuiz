@@ -148,5 +148,35 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/dec5a958394715ea3ee7f2f9ce0f6528/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "Fruto",
     "artistaMostrar": "Bizarrap, Milo j"
+  },
+  {
+    "id": 11,
+    "respuestasHash": ["YWVyb2JpY29yZW1peA==","YWVyb2JpY28="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2023",
+      "💿 Es un sencillo, no pertenece a ningún álbum/EP",
+      "🎤 Participan 4 artistas, incluido Milo",
+      "☝️ La canción original pertenece al EP ''ABDUCCION'' de Bhavi"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/0/f/3/0/0f3bd61c92217fe6da5cd01b7f2073dd.mp3?hdnea=exp=1773888883~acl=/api/1/1/0/f/3/0/0f3bd61c92217fe6da5cd01b7f2073dd.mp3*~data=user_id=0,application_id=42~hmac=299161b006943e450252ba03000daf6871399a9bd6adff1ecccda1b3a32cf90a",
+    "audioInicio": 10,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/2e46c99212cd674152bf37a2efae6dea/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "AEROBICO REMIX",
+    "artistaMostrar": "Bhavi, Duki, Milo j, LIT Killah"
+  },
+  {
+    "id": 12,
+    "respuestasHash": ["bWFp", "bS5hLmk="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2023",
+      "💿 Pertenece a un álbum",
+      "🎤 No cuenta con featuring",
+      "☝️ Hace unos días, consiguió los 400 millones de streams en Spotify"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/5/c/a/0/5ca423011cccc3be5cb3ea7c9ecb2f5b.mp3?hdnea=exp=1773889480~acl=/api/1/1/5/c/a/0/5ca423011cccc3be5cb3ea7c9ecb2f5b.mp3*~data=user_id=0,application_id=42~hmac=fbfb10fcaa8b844c8bce8917b392e242c237b2e9bf65ffa5ca37bdeaaddf0ed0",
+    "audioInicio": 20,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/3497a7151f794fabdc532b052f03d5ee/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "M.A.I",
+    "artistaMostrar": "Milo j"
   }
 ];
