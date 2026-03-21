@@ -178,5 +178,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/3497a7151f794fabdc532b052f03d5ee/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "M.A.I",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 13,
+    "respuestasHash": ["dHVwYXo="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2022",
+      "💿 Es un sencillo, no pertenece a ningún álbum/EP",
+      "🎤 No cuenta con featuring",
+      "☝️ Contiene un sampleo de una canción de Natalia Lafourcade"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/e/b/9/0/eb9778dd071faeacd6fa3d49426e8b09.mp3?hdnea=exp=1774061991~acl=/api/1/1/e/b/9/0/eb9778dd071faeacd6fa3d49426e8b09.mp3*~data=user_id=0,application_id=42~hmac=a0ba6a7fb9d253b8526fb6684ecb8287d0ad61e5bf1264609a03eea1daa8e66d",
+    "audioInicio": 17.7,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/7d95b77ad48b5a5cd71127eb8f6ccc30/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "Tu Paz",
+    "artistaMostrar": "Milo j"
   }
 ];
