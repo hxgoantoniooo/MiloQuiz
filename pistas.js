@@ -193,5 +193,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/7d95b77ad48b5a5cd71127eb8f6ccc30/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "Tu Paz",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 14,
+    "respuestasHash": ["YXZvcw=="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2024",
+      "💿 Pertenece a un álbum",
+      "🎤 No cuenta con featuring",
+      "☝️ ''A tí'' pero en argentino"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/b/9/6/0/b96137bf5e48a9db6f290dab73bf60fc.mp3?hdnea=exp=1774148247~acl=/api/1/1/b/9/6/0/b96137bf5e48a9db6f290dab73bf60fc.mp3*~data=user_id=0,application_id=42~hmac=b49111751f7f133785692fe927a6e7d22fd49f55390ef67a6f398d45cdd22b56",
+    "audioInicio": 15,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/baadb95923dc94dc0f5a3b1d33cf2928/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "A VOS",
+    "artistaMostrar": "Milo j"
   }
 ];
