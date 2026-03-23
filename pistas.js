@@ -208,5 +208,35 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/baadb95923dc94dc0f5a3b1d33cf2928/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "A VOS",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 15,
+    "respuestasHash": ["dmlkYWRlcm9jaw=="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2024",
+      "💿 Pertenece a un álbum",
+      "🎤 Participan 2 artistas en el tema, y Milo no es el artista principal",
+      "☝️ Es una canción filtrada del artista principal, que en un inicio seria con Asan"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/3/4/3/0/343a6459e3f77a87298ce83e312036c3.mp3?hdnea=exp=1774233918~acl=/api/1/1/3/4/3/0/343a6459e3f77a87298ce83e312036c3.mp3*~data=user_id=0,application_id=42~hmac=e4ed50cfa7ee92338d99cdce19fa1e16a7d7221043b59f4eeede4df938e62784",
+    "audioInicio": 15,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/6973b34fe9d46afa51f660577795e69a/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "Vida De Rock",
+    "artistaMostrar": "Duki, Milo j"
+  },
+  {
+    "id": 16,
+    "respuestasHash": ["cGFyYWlzbw==", "cGFyYWlzb2Rhw7Fh", "cGFyYWlzbyhkYcOxYSk="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2024",
+      "💿 Pertenece a un álbum",
+      "🎤 No cuenta con featuring",
+      "☝️ El tema esta dividido por dos partes"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/8/3/f/0/83fbf48db59c48a6e431d6c470e5eb85.mp3?hdnea=exp=1774233655~acl=/api/1/1/8/3/f/0/83fbf48db59c48a6e431d6c470e5eb85.mp3*~data=user_id=0,application_id=42~hmac=ddf487385bc4dbb47d6436d25dc84498907dceba3a66ca47d2f33df66a25f7fc",
+    "audioInicio": 15,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/baadb95923dc94dc0f5a3b1d33cf2928/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "PARAISO (daña)",
+    "artistaMostrar": "Milo j"
   }
 ];
