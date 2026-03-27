@@ -238,5 +238,50 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/baadb95923dc94dc0f5a3b1d33cf2928/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "PARAISO (daña)",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 17,
+    "respuestasHash": ["cmFkYW1lbA=="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2025",
+      "💿 Pertenece a un álbum",
+      "🎤 Participan 2 artistas en el tema, y Milo es el artista principal",
+      "☝️ El titulo del tema es el nombre del segundo artista"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/2/b/e/0/2be705cf6872bf6802a28da57acc78bb.mp3?hdnea=exp=1774578097~acl=/api/1/1/2/b/e/0/2be705cf6872bf6802a28da57acc78bb.mp3*~data=user_id=0,application_id=42~hmac=3274d670de8bc2601bc9b7e57b956178df0a277112af9eaefb2f92eb132b3faa",
+    "audioInicio": 15,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/c72e7cab03e497eb005c3490f3be703d/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "Radamel",
+    "artistaMostrar": "Milo j, Radamel"
+  },
+  {
+    "id": 18,
+    "respuestasHash": ["bm9tdWNobwo="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2023",
+      "💿 Pertenece a un EP",
+      "🎤 No cuenta con featuring",
+      "☝️ El titulo con otras palabras: ''Un poco''"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/0/9/0/0/090035412c285f77792a866ad64bf950.mp3?hdnea=exp=1774578413~acl=/api/1/1/0/9/0/0/090035412c285f77792a866ad64bf950.mp3*~data=user_id=0,application_id=42~hmac=d158e8a2329af21bdf6d9a2a8b56a747995334f32cacad0e01d9cb04acdd5193",
+    "audioInicio": 15,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/b2b05ff496d790a0ef6a9f8c1a3c822e/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "NO MUCHO",
+    "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 19,
+    "respuestasHash": ["bW9yb2NoYQoK"],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2022",
+      "💿 Es un sencillo, no pertenece a ningún álbum/EP",
+      "🎤 No cuenta con featuring",
+      "☝️ El titulo alude a una persona de tez no tan oscura"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/0/9/0/0/090035412c285f77792a866ad64bf950.mp3?hdnea=exp=1774578413~acl=/api/1/1/0/9/0/0/090035412c285f77792a866ad64bf950.mp3*~data=user_id=0,application_id=42~hmac=d158e8a2329af21bdf6d9a2a8b56a747995334f32cacad0e01d9cb04acdd5193",
+    "audioInicio": 15,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/b2b05ff496d790a0ef6a9f8c1a3c822e/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "Morocha",
+    "artistaMostrar": "Milo j"
   }
 ];
