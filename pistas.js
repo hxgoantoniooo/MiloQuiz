@@ -298,5 +298,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/dec5a958394715ea3ee7f2f9ce0f6528/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "Toy en el Mic",
     "artistaMostrar": "Bizarrap, Milo j"
+  },
+  {
+    "id": 21,
+    "respuestasHash": ["bHVjaWE="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2025",
+      "💿 Pertenece a un álbum",
+      "🎤 Participan 2 artistas en el tema, y Milo es el artista principal",
+      "☝️ El featuring es con una persona muy respetada en el folclore argentino"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/b/d/0/0/bd03fdf363565fd89122d49e4d09cf24.mp3?hdnea=exp=1774668315~acl=/api/1/1/b/d/0/0/bd03fdf363565fd89122d49e4d09cf24.mp3*~data=user_id=0,application_id=42~hmac=9c487157e556f3639dc212608505d0db1b7cea198b938df51c2d2a9d40946c79",
+    "audioInicio": 15,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/c72e7cab03e497eb005c3490f3be703d/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "Lucía",
+    "artistaMostrar": "Milo j, Soledad"
   }
 ];
