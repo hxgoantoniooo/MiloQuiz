@@ -283,5 +283,20 @@ const datosDiarios = [
     "portada": "https://cdn-images.dzcdn.net/images/cover/b2b05ff496d790a0ef6a9f8c1a3c822e/500x500-000000-80-0-0.jpg",
     "tituloMostrar": "Morocha",
     "artistaMostrar": "Milo j"
+  },
+  {
+    "id": 20,
+    "respuestasHash": ["dG95ZW5lbG1pYw=="],
+    "pistasTextos": [
+      "📅 Año de lanzamiento: 2023",
+      "💿 Pertenece a un EP",
+      "🎤 Participan 2 artistas en el tema, y Milo no es el artista principal",
+      "☝️ En la cancion, hay una parte relacionada al genero del flamenco"
+    ],
+    "audioUrl": "https://cdnt-preview.dzcdn.net/api/1/1/0/0/9/0/0096fb7a0e0c5b333bd884cdcff052a9.mp3?hdnea=exp=1774667711~acl=/api/1/1/0/0/9/0/0096fb7a0e0c5b333bd884cdcff052a9.mp3*~data=user_id=0,application_id=42~hmac=573289df6df1abe226854e148fbef4d28720d8afe773dc61613287ab78c02c0d",
+    "audioInicio": 15,
+    "portada": "https://cdn-images.dzcdn.net/images/cover/dec5a958394715ea3ee7f2f9ce0f6528/500x500-000000-80-0-0.jpg",
+    "tituloMostrar": "Toy en el Mic",
+    "artistaMostrar": "Bizarrap, Milo j"
   }
 ];
